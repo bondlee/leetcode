@@ -1,0 +1,8 @@
+write msg to stderr
+enetering function
+Traceback (most recent call last):
+  File "E:/work/leetcode/functest/std.py", line 47, in <module>
+    test_stderr_file()
+  File "E:/work/leetcode/functest/std.py", line 28, in test_stderr_file
+    raise ValueError("STD ERROR")
+ValueError: STD ERROR
