@@ -8,32 +8,32 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        slist = []
+        if not nums:
+            return 0
+        from collections import defaultdict
+        slist = defaultdict(lambda :0)
         ss = 0
         for i,v in enumerate(nums):
             ss += v
-            slist.append(ss)
+            slist[i] = ss
         left = 0
-        right = len(nums) - 1
-        if ss[-1] < s:
+        right = 0
+        if slist[len(nums)-1] < s:
             return 0
-        while left <= right:
-            sp = ss[right] - ss[left] + nums[left]
-            # 小于回退
+        ml = 10000
+        while left <= right and right < len(nums):
+            sp = slist[right] - slist[left] + nums[left]
+            l = right - left + 1
             if sp < s:
-                if nums[left] < nums[right]:
-                    left -= 1
-                else:
-                    right += 1
-
-            if sp >= s:
-                if nums[left] < nums[right]:
-                    left += 1
-                if nums[left] > nums[right]:
-                    right -= 1
-
-        return right - left + 1
+                right += 1
+            else:
+                if l < ml:
+                    ml = l
+                left += 1
+        return ml
 
 
 if __name__ == '__main__':
+    sol = Solution()
+    print sol.minSubArrayLen(7, [2,3,1,2,4,3])
     pass

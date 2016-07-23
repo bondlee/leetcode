@@ -3,11 +3,17 @@
 
 
 class WordDictionary(object):
+
+    class Node(object):
+        def __init__(self):
+            self.child = {}
+            self.leaf = 0
+
     def __init__(self):
         """
         initialize your data structure here.
         """
-        self.trie = {}
+        self.trie = self.Node()
 
     def addWord(self, word):
         """
@@ -17,10 +23,10 @@ class WordDictionary(object):
         """
         cur = self.trie
         for i in word:
-            if i not in cur:
-                cur = {}
-                cur[i] = {}
-            cur = cur[i]
+            if i not in cur.child:
+                cur.child[i] = self.Node()
+            cur = cur.child[i]
+        cur.leaf = 1
 
     def search(self, word):
         """
@@ -29,14 +35,23 @@ class WordDictionary(object):
         :type word: str
         :rtype: bool
         """
-        ind = 0
-        wl = len(word)
-        while ind < wl:
-            w = word[ind]
-            if w != ".":
-                ind += 1
+        def dfs(r, cur):
+            if res[0]:
+                return
+            if r == len(word) and cur.leaf:
+                res[0] = 1
+            if r < len(word):
+                if word[r] != "." and word[r] in cur.child:
+                    dfs(r+1, cur.child[word[r]])
+                if word[r] == ".":
+                    for i in cur.child.iterkeys():
+                        dfs(r+1, cur.child[i])
+        res = [0]
+        dfs(0, self.trie)
+        return res[0] == 1
+
 
 if __name__ == '__main__':
     wordDictionary = WordDictionary()
     wordDictionary.addWord("word")
-    wordDictionary.search("pattern")
+    print wordDictionary.search("wor.")

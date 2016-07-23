@@ -1,5 +1,5 @@
 # coding: utf-8
-# Created by bondlee on 2016/5/15
+# Created by bondlee on 2016/7/3
 
 class Solution(object):
     def permute(self, nums):
@@ -10,16 +10,22 @@ class Solution(object):
         def dfs(cur, ss, k):
             if k == len(nums):
                 res.append(cur)
+                return
             for i, v in enumerate(ss):
-                dfs(cur + [v], ss[0:i] + ss[i+1:], k+1)
-        ndic = {}
-        for i in nums:
-            ndic[i] = 1
+                tmp = cur + [v]
+                if not ndic[tuple(tmp)]:
+                    ndic[tuple(tmp)] = 1
+                    dfs(cur + [v], ss[0:i] + ss[i+1:], k+1)
+
+
+        from collections import defaultdict
+        ndic = defaultdict(lambda :0)
         res = []
         dfs([], nums, 0)
         return res
 
-
-
 if __name__ == '__main__':
+
+    sol = Solution()
+    print sol.permute([3,3,0,0,2,3,2])
     pass
